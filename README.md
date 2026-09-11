@@ -1,1 +1,11 @@
-https://github.com/uk-1222/lab-02.git# lab-02
+# CMPUT 301: Lab 2
+
+## Student Details
+- **Full Name:** `Umar Kiani`
+- **CCID:** `mukiani`
+
+## References and Resources
+List any resources used here, or simply put `N/A` if not applicable.
+
+## Verbal Collaboration
+List students' names and CCIDs here, or simply put `N/A` if not applicable. 
