@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,7 +41,8 @@ class MainActivity : ComponentActivity() {
                     CityListScreen(
                         cities = cityRepository.cities,
                         onAddCity = { cityRepository.addCity(it)},
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        onDelCity = {cityRepository.delCity(it)}
                     )
                 }
             }
@@ -61,13 +63,18 @@ class CityRepository {
     fun addCity(city:String){
         _cities.add(city)
     }
+
+    fun delCity(city:String){
+        _cities.remove(city)
+    }
 }
 
 @Composable
 fun CityListScreen(
     cities: List<String>,
     onAddCity: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDelCity: (String) -> Unit
 ){
     var newCityName by remember { mutableStateOf("") }
     Column(modifier = modifier.fillMaxSize()){
@@ -94,14 +101,14 @@ fun CityListScreen(
 
     LazyColumn(modifier = modifier.fillMaxSize()) {
         items(cities){ city ->
-            CityRow(city = city)
+            CityRow(city = city, onDelete = { onDelCity(city) })
         }
     }
 }}
 
 
 @Composable
-fun CityRow(city: String){
+fun CityRow(city: String, onDelete: () -> Unit){
     Text(
         text = city,
         fontSize = 28.sp,
@@ -109,6 +116,9 @@ fun CityRow(city: String){
             .fillMaxWidth()
             .padding(horizontal = 18.dp, vertical = 14.dp)
     )
+    Button(
+        onClick = onDelete
+    ) { Text("Delete")}
 
 }
 
@@ -116,8 +126,8 @@ fun CityRow(city: String){
 @Composable
 fun CityRowPreview(){
     ListyCityTheme() {
-        CityRow(
-            city = "Edmonton"
-        )
+//        CityRow(
+//            city = "Edmonton"
+//        )
     }
 }
